@@ -1,0 +1,19 @@
+{
+  "name": "detacher",
+  "version": "0.0.0",
+  "description": "A simple object designed to be used by attaching calls",
+  "main": "main.js",
+  "dependencies": {
+    "u-proto": ""
+  },
+  
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/manvalls/detacher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/manvalls/detacher/issues"
+  },
+  "author": "Manuel Valls Fernández <manolo@vlrz.es>",
+  "license": "LGPL-3.0"
+}
