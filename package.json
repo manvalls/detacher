@@ -1,12 +1,11 @@
 {
   "name": "detacher",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A simple object designed to be used by attaching calls",
   "main": "main.js",
   "dependencies": {
     "u-proto": ""
   },
-  
   "repository": {
     "type": "git",
     "url": "git://github.com/manvalls/detacher.git"
