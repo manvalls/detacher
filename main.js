@@ -18,3 +18,4 @@ Detacher.prototype[define]({
   
 });
 
+module.exports = Detacher;

@@ -34,3 +34,4 @@ Collection.prototype[define]({
   
 });
 
+module.exports = Collection;
