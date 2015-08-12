@@ -1,5 +1,5 @@
 var define = require('u-proto/define'),
-    
+
     active = Symbol(),
     collection = Symbol();
 
@@ -9,29 +9,31 @@ function Collection(){
 }
 
 Collection.prototype[define]({
-  
+
   get active(){
     return this[active];
   },
-  
+
   detach: function(){
-    var d;
-    
+    var d,c;
+
     if(!this[active]) return;
     this[active] = false;
-    
-    for(d of this[collection].values()) d.detach();
+
+    c = new Set(this[collection]);
     this[collection].clear();
+
+    for(d of c) d.detach();
   },
-  
+
   add: function(d){
     if(!this[active]) d.detach();
   },
-  
+
   remove: function(d){
     this[collection].delete(d);
   }
-  
+
 });
 
 module.exports = Collection;
