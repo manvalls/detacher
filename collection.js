@@ -32,6 +32,10 @@ Collection.prototype[define]({
 
   remove: function(d){
     this[collection].delete(d);
+  },
+
+  get size(){
+    return this[collection].size;
   }
 
 });
