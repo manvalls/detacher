@@ -15,19 +15,18 @@ Collection.prototype[define]({
   },
 
   detach: function(){
-    var d,c;
+    var d;
 
     if(!this[active]) return;
     this[active] = false;
 
-    c = new Set(this[collection]);
+    for(d of this[collection]) d.detach();
     this[collection].clear();
-
-    for(d of c) d.detach();
   },
 
   add: function(d){
     if(!this[active]) d.detach();
+    else this[collection].add(d);
   },
 
   remove: function(d){
