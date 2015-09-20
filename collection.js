@@ -24,13 +24,26 @@ Collection.prototype[define]({
     this[collection].clear();
   },
 
-  add: function(d){
-    if(!this[active]) d.detach();
-    else this[collection].add(d);
+  add: function(){
+    var i,d;
+
+    for(i = 0;i < arguments.length;i++){
+      d = arguments[i];
+
+      if(!this[active]) d.detach();
+      else this[collection].add(d);
+    }
+
   },
 
-  remove: function(d){
-    this[collection].delete(d);
+  remove: function(){
+    var i,d;
+
+    for(i = 0;i < arguments.length;i++){
+      d = arguments[i];
+      this[collection].delete(d);
+    }
+
   },
 
   get size(){
