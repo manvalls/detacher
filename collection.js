@@ -20,7 +20,7 @@ Collection.prototype[define]({
     if(!this[active]) return;
     this[active] = false;
 
-    for(d of this[collection]) d.detach();
+    for(d of this[collection]) detach(d);
     this[collection].clear();
   },
 
@@ -30,7 +30,7 @@ Collection.prototype[define]({
     for(i = 0;i < arguments.length;i++){
       d = arguments[i];
 
-      if(!this[active]) d.detach();
+      if(!this[active]) detach(d);
       else this[collection].add(d);
     }
 
@@ -51,5 +51,18 @@ Collection.prototype[define]({
   }
 
 });
+
+// utils
+
+function detach(d){
+
+  if(d.detach) return d.detach();
+  if(d.disconnect) return d.disconnect();
+  if(d.close) return d.close();
+  if(d.kill()) return d.kill();
+
+}
+
+/*/ exports /*/
 
 module.exports = Collection;
