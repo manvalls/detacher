@@ -60,6 +60,7 @@ function detach(d){
   if(d.disconnect) return d.disconnect();
   if(d.close) return d.close();
   if(d.kill) return d.kill();
+  if(d.pause) return d.pause();
 
 }
 
