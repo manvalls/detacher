@@ -59,7 +59,7 @@ function detach(d){
   if(d.detach) return d.detach();
   if(d.disconnect) return d.disconnect();
   if(d.close) return d.close();
-  if(d.kill()) return d.kill();
+  if(d.kill) return d.kill();
 
 }
 
