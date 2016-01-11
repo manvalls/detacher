@@ -3,7 +3,7 @@ var resolver = Symbol(),
     args = Symbol(),
     Resolver;
 
-module.exports = function(){ return new Detacher(); };
+module.exports = function(){ return new Detacher(...arguments); };
 Resolver = require('y-resolver');
 
 class Detacher extends Resolver.Yielded{
