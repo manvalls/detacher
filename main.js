@@ -1,7 +1,11 @@
 /**/ 'use strict' /**/
-var Resolver = require('y-resolver'),
-    resolver = Symbol(),
-    args = Symbol();
+var resolver = Symbol(),
+    args = Symbol(),
+    Resolver;
+
+module.exports = function(){ return new Detacher(); };
+module.exports.prototype = Detacher.prototype;
+Resolver = require('y-resolver');
 
 class Detacher extends Resolver.Yielded{
 
@@ -30,5 +34,3 @@ class Detacher extends Resolver.Yielded{
 function throwError(e){
   throw e;
 }
-
-module.exports = Detacher;
