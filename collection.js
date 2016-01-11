@@ -1,7 +1,7 @@
 /**/ 'use strict' /**/
-var Yielded = require('y-resolver').Yielded,
-    Detacher = require('./main.js'),
-    set = Symbol();
+var Detacher = require('./main.js'),
+    set = Symbol(),
+    Yielded;
 
 class Collection extends Detacher{
 
@@ -56,4 +56,5 @@ function detach(d){
 
 }
 
+Yielded = require('y-resolver').Yielded;
 module.exports = Collection;
