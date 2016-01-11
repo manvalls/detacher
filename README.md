@@ -1,15 +1,15 @@
-# Detacher
+# Detacher [![Build Status][ci-img]][ci-url] [![Coverage Status][cover-img]][cover-url]
 
 ## Sample usage
 
 ```javascript
 var Detacher = require('detacher'),
     Collection = require('detacher/collection'),
-    
+
     d1 = new Detacher(),
     d2 = new Detacher(),
     d3 = new Detacher(),
-    
+
     c = new Collection();
 
 console.log(d1.active); // true
@@ -26,3 +26,8 @@ c.detach();
 console.log(d2.active); // false
 console.log(d3.active); // false
 ```
+
+[ci-img]: https://circleci.com/gh/manvalls/detacher.svg?style=shield
+[ci-url]: https://circleci.com/gh/manvalls/detacher
+[cover-img]: https://coveralls.io/repos/manvalls/detacher/badge.svg?branch=master&service=github
+[cover-url]: https://coveralls.io/github/manvalls/detacher?branch=master

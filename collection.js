@@ -1,69 +1,59 @@
-var define = require('u-proto/define'),
+/**/ 'use strict' /**/
+var Yielded = require('y-resolver').Yielded,
+    Detacher = require('./main.js'),
+    set = Symbol();
 
-    active = Symbol(),
-    collection = Symbol();
+class Collection extends Detacher{
 
-function Collection(){
-  this[active] = true;
-  this[collection] = new Set();
-}
+  constructor(){
+    var s = new Set();
 
-Collection.prototype[define]({
-
-  get active(){
-    return this[active];
-  },
-
-  detach: function(){
-    var d;
-
-    if(!this[active]) return;
-    this[active] = false;
-
-    for(d of this[collection]) detach(d);
-    this[collection].clear();
-  },
-
-  add: function(){
-    var i,d;
-
-    for(i = 0;i < arguments.length;i++){
-      d = arguments[i];
-
-      if(!this[active]) detach(d);
-      else this[collection].add(d);
-    }
-
-  },
-
-  remove: function(){
-    var i,d;
-
-    for(i = 0;i < arguments.length;i++){
-      d = arguments[i];
-      this[collection].delete(d);
-    }
-
-  },
-
-  get size(){
-    return this[collection].size;
+    super(detachSet,[s]);
+    this[set] = s;
   }
 
-});
+  add(){
+    var d;
 
-// utils
+    if(this.done){
+      for(d of arguments) detach(d);
+      return;
+    }
+
+    for(d of arguments){
+      this[set].add(d);
+      if(Yielded.is(d)) d.listen(this[set].delete,[d],this[set]);
+    }
+  }
+
+  remove(){
+    var d;
+    for(d of arguments) this[set].delete(d);
+  }
+
+  get size(){
+    return this[set].size;
+  }
+
+}
+
+function detachSet(set){
+  var d;
+  for(d of set) detach(d);
+  set.clear();
+}
 
 function detach(d){
+  d = d || {};
 
   if(d.detach) return d.detach();
   if(d.disconnect) return d.disconnect();
   if(d.close) return d.close();
   if(d.kill) return d.kill();
   if(d.pause) return d.pause();
+  if(d.accept) return d.accept();
+  if(d.reject) return d.reject();
 
 }
-
-/*/ exports /*/
 
 module.exports = Collection;
