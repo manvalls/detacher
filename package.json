@@ -4,6 +4,7 @@
   "description": "A simple object designed to be used by attaching calls",
   "main": "main.js",
   "dependencies": {
+    "u-proto": "^5.4.4",
     "y-resolver": "^9.1.1"
   },
   "devDependencies": {

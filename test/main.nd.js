@@ -59,7 +59,7 @@ t('Collection',function*(){
   assert.strictEqual(col.size,0);
   col.add(res.yielded);
   assert.strictEqual(col.size,0);
-  
+
   col.detach();
   col.add({ pause: () => n++ });
   assert.strictEqual(n,8);

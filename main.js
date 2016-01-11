@@ -1,23 +1,27 @@
 /**/ 'use strict' /**/
 var resolver = Symbol(),
     args = Symbol(),
-    Resolver;
+    Resolver,define;
 
-module.exports = function(){ return new Detacher(...arguments); };
+module.exports = Detacher;
 Resolver = require('y-resolver');
+define = require('u-proto/define');
 
-class Detacher extends Resolver.Yielded{
+function Detacher(){
+  Resolver.Yielded.call(this,resolver);
+  this[args] = arguments;
+}
 
-  constructor(){
-    super(resolver);
-    this[args] = arguments;
-  }
+Detacher.prototype = Object.create(Resolver.Yielded.prototype);
+Detacher.prototype[define]('constructor',Detacher);
+
+Detacher.prototype[define]({
 
   get active(){
     return !this.done;
-  }
+  },
 
-  detach(){
+  detach: function(){
     var a;
 
     if(this.done) return;
@@ -28,7 +32,7 @@ class Detacher extends Resolver.Yielded{
     catch(e){ setTimeout(throwError,0,e); }
   }
 
-}
+});
 
 function throwError(e){
   throw e;

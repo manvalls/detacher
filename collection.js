@@ -1,6 +1,6 @@
 /**/ 'use strict' /**/
 var Detacher = require('./main.js'),
-    set = Symbol(),
+    col = Symbol(),
     Yielded;
 
 class Collection extends Detacher{
@@ -9,7 +9,7 @@ class Collection extends Detacher{
     var s = new Set();
 
     super(detachSet,[s]);
-    this[set] = s;
+    this[col] = s;
   }
 
   add(){
@@ -21,26 +21,26 @@ class Collection extends Detacher{
     }
 
     for(d of arguments){
-      this[set].add(d);
-      if(Yielded.is(d)) d.listen(this[set].delete,[d],this[set]);
+      this[col].add(d);
+      if(Yielded.is(d)) d.listen(this[col].delete,[d],this[col]);
     }
   }
 
   remove(){
     var d;
-    for(d of arguments) this[set].delete(d);
+    for(d of arguments) this[col].delete(d);
   }
 
   get size(){
-    return this[set].size;
+    return this[col].size;
   }
 
 }
 
-function detachSet(set){
+function detachSet(col){
   var d;
-  for(d of set) detach(d);
-  set.clear();
+  for(d of col) detach(d);
+  col.clear();
 }
 
 function detach(d){
