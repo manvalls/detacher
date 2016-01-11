@@ -1,6 +1,6 @@
 {
   "name": "detacher",
-  "version": "1.5.5",
+  "version": "1.6.0",
   "description": "A simple object designed to be used by attaching calls",
   "main": "main.js",
   "dependencies": {
