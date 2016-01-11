@@ -4,7 +4,6 @@ var resolver = Symbol(),
     Resolver;
 
 module.exports = function(){ return new Detacher(); };
-module.exports.prototype = Detacher.prototype;
 Resolver = require('y-resolver');
 
 class Detacher extends Resolver.Yielded{
@@ -34,3 +33,5 @@ class Detacher extends Resolver.Yielded{
 function throwError(e){
   throw e;
 }
+
+module.exports.prototype = Detacher.prototype;
