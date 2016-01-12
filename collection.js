@@ -1,18 +1,24 @@
 /**/ 'use strict' /**/
-var Detacher = require('./main.js'),
-    col = Symbol(),
-    Yielded;
+var col = Symbol(),
+    Yielded,Detacher,define;
 
-class Collection extends Detacher{
+module.exports = Collection;
+Yielded = require('y-resolver').Yielded;
+Detacher = require('./main.js');
+define = require('u-proto/define');
 
-  constructor(){
-    var s = new Set();
+function Collection(){
+  var s = new Set();
 
-    super(detachSet,[s]);
-    this[col] = s;
-  }
+  Detacher.call(this,detachSet,[s]);
+  this[col] = s;
+}
 
-  add(){
+Collection.prototype = Object.create(Detacher.prototype);
+Collection.prototype[define]('constructor',Collection);
+Collection.prototype[define]({
+
+  add: function(){
     var d;
 
     if(this.done){
@@ -24,18 +30,18 @@ class Collection extends Detacher{
       this[col].add(d);
       if(Yielded.is(d)) d.listen(this[col].delete,[d],this[col]);
     }
-  }
+  },
 
-  remove(){
+  remove: function(){
     var d;
     for(d of arguments) this[col].delete(d);
-  }
+  },
 
   get size(){
     return this[col].size;
   }
 
-}
+});
 
 function detachSet(col){
   var d;
@@ -55,6 +61,3 @@ function detach(d){
   if(d.reject) return d.reject();
 
 }
-
-Yielded = require('y-resolver').Yielded;
-module.exports = Collection;
