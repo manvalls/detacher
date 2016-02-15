@@ -1,6 +1,7 @@
 /**/ 'use strict' /**/
 var resolver = Symbol(),
     args = Symbol(),
+    col = Symbol(),
     Resolver,define;
 
 module.exports = Detacher;
@@ -10,6 +11,7 @@ define = require('u-proto/define');
 function Detacher(){
   Resolver.Yielded.call(this,resolver);
   this[args] = arguments;
+  this[col] = new Set();
 }
 
 Detacher.prototype = Object.create(Resolver.Yielded.prototype);
@@ -22,20 +24,58 @@ Detacher.prototype[define]({
   },
 
   detach: function(){
-    var a;
+    var a,d;
 
     if(this.done) return;
-    this[resolver].accept();
 
     a = this[args];
     if(a.length) try{ a[0].apply(a[2] || this,a[1] || []); }
     catch(e){ setTimeout(throwError,0,e); }
+
+    for(d of this[col]) detach(d);
+    this[col].clear();
+    this[resolver].accept();
+  },
+
+  add: function(){
+    var d;
+
+    if(this.done){
+      for(d of arguments) detach(d);
+      return;
+    }
+
+    for(d of arguments){
+      this[col].add(d);
+      if(Resolver.Yielded.is(d)) d.listen(this[col].delete,[d],this[col]);
+    }
+
+  },
+
+  remove: function(){
+    var d;
+    for(d of arguments) this[col].delete(d);
   }
 
 });
 
+// - utils
+
 function throwError(e){
   throw e;
+}
+
+function detach(d){
+  d = d || {};
+
+  if(d.detach) return d.detach();
+  if(d.disconnect) return d.disconnect();
+  if(d.close) return d.close();
+  if(d.kill) return d.kill();
+  if(d.pause) return d.pause();
+  if(d.accept) return d.accept();
+  if(d.reject) return d.reject();
+
 }
 
 module.exports.prototype = Detacher.prototype;

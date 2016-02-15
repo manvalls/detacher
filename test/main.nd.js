@@ -1,11 +1,11 @@
 var Detacher = require('../main.js'),
-    Collection = require('../collection.js'),
     t = require('u-test'),
     assert = require('assert'),
-    Resolver = require('y-resolver');
+    Resolver = require('y-resolver'),
+    wait = require('y-timers/wait');
 
 t('Detacher',function*(){
-  var d,test;
+  var d,test,e,ev;
 
   d = new Detacher();
   assert(d.active);
@@ -21,44 +21,45 @@ t('Detacher',function*(){
   assert(!test);
   d.detach();
   assert(test);
+
+  d = new Detacher(function(){
+    e = new Error();
+    throw e;
+  });
+
+  process.once('uncaughtException',function(e){
+    ev = e;
+  });
+
+  d.detach();
+  yield wait(10);
+  assert.strictEqual(ev,e);
 });
 
-t('Collection',function*(){
+t('Detacher as collection',function*(){
   var n = 0,
       col,d,res;
 
-  col = new Collection();
-  assert.strictEqual(col.size,0);
+  col = new Detacher();
   col.add({ pause: () => n++ });
-  assert.strictEqual(col.size,1);
   col.add({ detach: () => n++ });
-  assert.strictEqual(col.size,2);
   col.add({ disconnect: () => n++ });
-  assert.strictEqual(col.size,3);
   col.add({ close: () => n++ });
-  assert.strictEqual(col.size,4);
   col.add({ kill: () => n++ });
-  assert.strictEqual(col.size,5);
   col.add({ accept: () => n++ });
-  assert.strictEqual(col.size,6);
   col.add(d = { reject: () => n++ });
-  assert.strictEqual(col.size,7);
   col.remove(d);
-  assert.strictEqual(col.size,6);
   col.add(d);
   col.add(null);
   assert.strictEqual(n,0);
   col.detach();
   assert.strictEqual(n,7);
 
-  col = new Collection();
+  col = new Detacher();
   res = new Resolver();
   col.add(res.yielded);
-  assert.strictEqual(col.size,1);
   res.accept();
-  assert.strictEqual(col.size,0);
   col.add(res.yielded);
-  assert.strictEqual(col.size,0);
 
   col.detach();
   col.add({ pause: () => n++ });
