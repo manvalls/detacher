@@ -4,13 +4,12 @@
 
 ```javascript
 var Detacher = require('detacher'),
-    Collection = require('detacher/collection'),
 
     d1 = new Detacher(),
     d2 = new Detacher(),
     d3 = new Detacher(),
 
-    c = new Collection();
+    c = new Detacher();
 
 console.log(d1.active); // true
 d1.detach();
