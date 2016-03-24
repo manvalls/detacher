@@ -2,10 +2,11 @@
 var resolver = Symbol(),
     args = Symbol(),
     col = Symbol(),
-    Resolver,define;
+    Resolver,Setter,define;
 
 module.exports = Detacher;
 Resolver = require('y-resolver');
+Setter = require('y-setter');
 define = require('u-proto/define');
 
 function Detacher(){
@@ -48,6 +49,9 @@ Detacher.prototype[define]({
     for(d of arguments){
       this[col].add(d);
       if(Resolver.Yielded.is(d)) d.listen(this[col].delete,[d],this[col]);
+      else if(Resolver.is(d)) d.yielded.listen(this[col].delete,[d],this[col]);
+      else if(Setter.Getter.is(d)) d.frozen().listen(this[col].delete,[d],this[col]);
+      else if(Setter.is(d)) d.getter.frozen().listen(this[col].delete,[d],this[col]);
     }
 
   },
@@ -73,6 +77,7 @@ function detach(d){
   if(d.close) return d.close();
   if(d.kill) return d.kill();
   if(d.pause) return d.pause();
+  if(d.freeze) return d.freeze();
   if(d.accept) return d.accept();
   if(d.reject) return d.reject();
 

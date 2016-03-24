@@ -2,6 +2,7 @@ var Detacher = require('../main.js'),
     t = require('u-test'),
     assert = require('assert'),
     Resolver = require('y-resolver'),
+    Setter = require('y-setter'),
     wait = require('y-timers/wait');
 
 t('Detacher',function*(){
@@ -38,7 +39,7 @@ t('Detacher',function*(){
 
 t('Detacher as collection',function*(){
   var n = 0,
-      col,d,res;
+      col,d,res,s;
 
   col = new Detacher();
   col.add({ pause: () => n++ });
@@ -76,5 +77,14 @@ t('Detacher as collection',function*(){
   assert.strictEqual(n,13);
   col.add({ reject: () => n++ });
   assert.strictEqual(n,14);
+
+  col = new Detacher();
+  col.add(res = new Resolver());
+  col.add(s = new Setter());
+  col.add(s.getter);
+  col.detach();
+
+  yield res;
+  yield s.getter.frozen();
 
 });
