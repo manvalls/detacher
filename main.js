@@ -33,9 +33,9 @@ Detacher.prototype[define]({
     if(a.length) try{ a[0].apply(a[2] || this,a[1] || []); }
     catch(e){ setTimeout(throwError,0,e); }
 
+    this[resolver].accept();
     for(d of this[col]) detach(d);
     this[col].clear();
-    this[resolver].accept();
   },
 
   add: function(){
