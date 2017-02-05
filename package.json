@@ -4,12 +4,11 @@
   "description": "A simple object designed to be used by attaching calls",
   "main": "main.js",
   "dependencies": {
-    "u-proto": "^7.1.2",
-    "y-resolver": "^9.6.0",
-    "y-setter": "^6.13.0"
+    "y-resolver": "^9.8.4"
   },
   "devDependencies": {
-    "u-test": "^3.8.10",
+    "u-test": "^3.8.11",
+    "y-setter": "^7.3.3",
     "y-timers": "^1.1.6"
   },
   "scripts": {
