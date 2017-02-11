@@ -4,7 +4,7 @@
   "description": "A simple object designed to be used by attaching calls",
   "main": "main.js",
   "dependencies": {
-    "y-resolver": "^9.8.4"
+    "y-resolver": "^10.0.0"
   },
   "devDependencies": {
     "u-test": "^3.8.11",
